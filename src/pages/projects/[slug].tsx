@@ -1,4 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate, Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 import { ProjectHero } from "@/components/ProjectHero";
 import { ProjectFeature } from "@/components/ProjectFeature";
@@ -14,10 +14,11 @@ import { motion } from "framer-motion";
 
 export function ProjectDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
-    return <Navigate to="/projects" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // Get related projects (same difficulty level or similar tech)
@@ -35,12 +36,15 @@ export function ProjectDetailsPage() {
       <div className="border-b sticky top-0 z-10 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/projects">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Projects
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => navigate(-1)}
+              className="group transition-all hover:scale-105"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              Back
+            </Button>
             <CurrencySelector />
           </div>
         </div>
