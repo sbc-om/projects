@@ -1,0 +1,128 @@
+/* Project Portfolio Custom Styles */
+
+/* Smooth animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Grid background pattern */
+.grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Card hover effects */
+.project-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth scrolling - Professional and elegant */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Space for fixed headers */
+}
+
+/* Enhanced smooth scroll for all elements */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Webkit-specific smooth scrolling enhancement */
+@supports (scroll-behavior: smooth) {
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
+}
+
+/* OverlayScrollbars Custom Theme */
+.os-theme-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 10px;
+}
+
+.os-theme-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: hsl(var(--primary) / 0.7);
+}
+
+.os-theme-dark > .os-scrollbar-horizontal {
+  height: 10px;
+  padding: 2px;
+}
+
+.os-theme-dark > .os-scrollbar-vertical {
+  width: 10px;
+  padding: 2px;
+}
+
+.os-scrollbar-track {
+  background: transparent !important;
+}
+
+/* Fallback for browsers without OverlayScrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
