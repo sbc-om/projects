@@ -21,24 +21,24 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="h-full"
     >
-      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] flex flex-col h-full">
+      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/50 flex flex-col h-full border">
         <Link to={`/projects/${project.slug}`} className="block">
           <div className="relative aspect-4/3 overflow-hidden bg-muted">
             <motion.img 
               src={project.heroImage} 
               alt={project.title}
               className="w-full h-full object-cover"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-black/40" />
             <motion.div 
-              className="absolute bottom-0 left-0 right-0 p-4"
+              className="absolute bottom-0 left-0 right-0 p-4 bg-black/60 backdrop-blur-sm"
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <h3 className="text-lg font-bold text-white line-clamp-2">
+              <h3 className="text-base font-bold text-white line-clamp-2">
                 {project.title}
               </h3>
             </motion.div>
@@ -84,11 +84,11 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         </CardContent>
       </Link>
       
-      <CardFooter className="p-4 pt-0 mt-auto">
+      <CardFooter className="p-4 pt-0 mt-auto border-t">
         <Link to={`/projects/${project.slug}`} className="w-full">
-          <Button className="w-full group-hover:bg-primary/90 transition-colors text-sm h-9">
-            View Details
-            <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+          <Button variant="ghost" className="w-full group/btn transition-colors text-sm h-9 hover:bg-primary hover:text-primary-foreground">
+            View Project
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Button>
         </Link>
       </CardFooter>
