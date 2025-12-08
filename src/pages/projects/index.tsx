@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { Search, Filter } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
 
 export function ProjectsListPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,13 +58,8 @@ export function ProjectsListPage() {
       {/* Hero Section */}
       <div className="relative border-b bg-slate-900 text-white">
         <div className="absolute inset-0 bg-black/20" />
-        <div className="relative container mx-auto px-4 py-16 md:py-24">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+        <div className="relative container mx-auto px-4 py-12 md:py-20">
+          <div className="max-w-4xl mx-auto text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-sm mb-4">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
@@ -79,7 +73,7 @@ export function ProjectsListPage() {
             <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto">
               Ready-to-customize projects tailored to your business needs. Our expert team can implement and adapt any solution to match your requirements.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 
