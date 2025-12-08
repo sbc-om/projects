@@ -29,9 +29,17 @@ const CURRENCY_SYMBOLS: Record<Currency, string> = {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrency] = useState<Currency>("USD");
+  const [currency, setCurrencyState] = useState<Currency>(() => {
+    const saved = localStorage.getItem("selectedCurrency");
+    return (saved as Currency) || "USD";
+  });
   const [exchangeRates] = useState(EXCHANGE_RATES);
   const [isLoading] = useState(false);
+
+  const setCurrency = (newCurrency: Currency) => {
+    setCurrencyState(newCurrency);
+    localStorage.setItem("selectedCurrency", newCurrency);
+  };
 
   const convertPrice = (usdPrice: number): string => {
     const converted = usdPrice * exchangeRates[currency];

@@ -4,6 +4,7 @@ import { ProjectHero } from "@/components/ProjectHero";
 import { ProjectFeature } from "@/components/ProjectFeature";
 import { PriceBox } from "@/components/PriceBox";
 import { CurrencySelector } from "@/components/CurrencySelector";
+import { CartButton } from "@/components/CartButton";
 import { Section, SectionHeader } from "@/components/Section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -45,7 +46,10 @@ export function ProjectDetailsPage() {
               <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
               Back
             </Button>
-            <CurrencySelector />
+            <div className="flex items-center gap-2">
+              <CurrencySelector />
+              <CartButton />
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +209,8 @@ export function ProjectDetailsPage() {
                 difficultyLevel={project.difficultyLevel}
                 features={project.features}
                 projectTitle={project.title}
+                projectId={project.id}
+                projectSlug={project.slug}
               />
             </motion.div>
           </div>

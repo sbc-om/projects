@@ -1,6 +1,7 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { Section } from "@/components/Section";
 import { CurrencySelector } from "@/components/CurrencySelector";
+import { CartButton } from "@/components/CartButton";
 import { projects } from "@/data/projects";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -112,6 +113,7 @@ export function ProjectsListPage() {
                 </SelectContent>
               </Select>
               <CurrencySelector />
+              <CartButton />
               {(searchTerm || difficultyFilter !== "all") && (
                 <Button 
                   variant="ghost" 

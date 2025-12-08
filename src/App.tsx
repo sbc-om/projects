@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProjectsListPage } from "@/pages/projects";
 import { ProjectDetailsPage } from "@/pages/projects/[slug]";
+import { InvoicePage } from "@/pages/invoice";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import { CartProvider } from "@/contexts/CartContext";
 import { useOverlayScrollbars } from "@/hooks/useOverlayScrollbars";
 
 function App() {
@@ -11,11 +13,14 @@ function App() {
   return (
     <BrowserRouter>
       <CurrencyProvider>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<ProjectsListPage />} />
-          <Route path="/projects/:slug" element={<ProjectDetailsPage />} />
-        </Routes>
+        <CartProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<ProjectsListPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailsPage />} />
+            <Route path="/invoice" element={<InvoicePage />} />
+          </Routes>
+        </CartProvider>
       </CurrencyProvider>
     </BrowserRouter>
   );

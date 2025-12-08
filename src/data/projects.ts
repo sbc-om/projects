@@ -57,7 +57,7 @@ export const projects: Project[] = [
     title: "WhatsApp Management Software",
     shortDescription: "A powerful dashboard to manage WhatsApp chats, automation, bulk messaging, and templates.",
     longDescription: "A complete WhatsApp business software with contact grouping, chat templates, broadcast messages, auto-reply rules, and multi-agent support.",
-    priceEstimate: "From $2,200",
+    priceEstimate: "From $4,200",
     deliveryTime: "3–4 weeks",
     difficultyLevel: "Medium",
     technologies: ["React", "Node.js", "WhatsApp API", "shadcn/ui"],
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     title: "Call Center System",
     shortDescription: "A cloud call-center platform integrated with IVR, routing, agent dashboard, and reporting.",
     longDescription: "A complete call-center solution with IVR menus, forwarding logic, analytics dashboard, ticketing, and CRM integration.",
-    priceEstimate: "From $4,500",
+    priceEstimate: "From $5,500",
     deliveryTime: "5–8 weeks",
     difficultyLevel: "High",
     technologies: ["Asterisk", "React", "WebRTC", "VoIP APIs"],
@@ -129,25 +129,82 @@ export const projects: Project[] = [
   },
   {
     id: 7,
-    slug: "insurance-erp",
-    title: "Insurance ERP System",
-    shortDescription: "A complete ERP for insurance brokers in Oman with policies, claims, commissions, and CRM.",
-    longDescription: "A modern insurance ERP tailored for Omani brokers. Includes policy lifecycle, commissions, claims, CRM, invoicing, multilingual support, and full automation.",
-    priceEstimate: "From $12,000",
-    deliveryTime: "10–16 weeks",
-    difficultyLevel: "Very High",
-    technologies: ["React", "Blazor", "PostgreSQL", "Odoo API"],
+    slug: "odoo-api-integration",
+    title: "Custom Odoo API Integration",
+    shortDescription: "Connect any application to Odoo ERP with seamless API integration and data synchronization.",
+    longDescription: "A complete API integration solution that connects your existing applications with Odoo ERP. Includes real-time data sync, webhook support, custom endpoints, and comprehensive documentation.",
+    priceEstimate: "From $3,200",
+    deliveryTime: "4–6 weeks",
+    difficultyLevel: "Medium",
+    technologies: ["Python", "Odoo API", "REST API", "WebSockets"],
     features: [
-      "Policy management",
-      "Claims workflow",
-      "Commission engine",
-      "Customer portal",
-      "Full bilingual support (EN/AR)"
+      "Real-time data synchronization",
+      "Custom API endpoints",
+      "Webhook integration",
+      "Error handling & logging",
+      "API documentation"
     ],
-    heroImage: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=800&fit=crop&q=80"
+    heroImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=800&fit=crop&q=80"
   },
   {
     id: 8,
+    slug: "custom-odoo-module",
+    title: "Custom Odoo Module Development",
+    shortDescription: "Tailored Odoo modules built specifically for your business requirements and workflows.",
+    longDescription: "Professional development of custom Odoo modules with full integration into your existing ERP system. Includes custom models, views, reports, automated workflows, and security rules.",
+    priceEstimate: "From $2,800",
+    deliveryTime: "3–5 weeks",
+    difficultyLevel: "Medium",
+    technologies: ["Python", "Odoo", "XML", "JavaScript"],
+    features: [
+      "Custom business logic",
+      "Automated workflows",
+      "Custom reports & dashboards",
+      "Security & access control",
+      "Multi-company support"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 9,
+    slug: "property-valuation-system",
+    title: "Property Valuation & Appraisal System",
+    shortDescription: "Advanced real estate valuation platform with automated appraisals, market analysis, and reporting.",
+    longDescription: "A comprehensive property valuation system for real estate professionals. Features AI-powered market analysis, comparable property matching, automated valuation models (AVM), and detailed appraisal reports.",
+    priceEstimate: "From $4,200",
+    deliveryTime: "5–7 weeks",
+    difficultyLevel: "High",
+    technologies: ["React", "Next.js", "AI Models", "PostgreSQL"],
+    features: [
+      "Automated valuation models (AVM)",
+      "Comparable property analysis",
+      "Market trend reports",
+      "PDF appraisal generation",
+      "Historical data tracking"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 10,
+    slug: "property-inspection-app",
+    title: "Property Inspection Mobile App",
+    shortDescription: "Mobile application for property inspections with photo documentation, checklists, and instant reports.",
+    longDescription: "A complete mobile solution for property inspectors and real estate agents. Includes customizable inspection checklists, photo annotations, voice notes, offline mode, and automatic report generation.",
+    priceEstimate: "From $3,800",
+    deliveryTime: "4–6 weeks",
+    difficultyLevel: "Medium",
+    technologies: ["React Native", "Firebase", "TypeScript"],
+    features: [
+      "Customizable inspection forms",
+      "Photo documentation & annotations",
+      "Offline mode support",
+      "Automatic PDF reports",
+      "Cloud synchronization"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 11,
     slug: "odoo-mobile-module",
     title: "Odoo Android & iOS Mobile Module",
     shortDescription: "A mobile application layer for Odoo, built for Android & iOS.",
@@ -166,7 +223,7 @@ export const projects: Project[] = [
     heroImage: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=800&fit=crop&q=80"
   },
   {
-    id: 9,
+    id: 12,
     slug: "odoo-payment-gateways-oman",
     title: "Odoo Payment Gateway Module (Bank Muscat & Sohar)",
     shortDescription: "Secure payment gateway integration for Odoo ERP for Omani banks.",
@@ -184,23 +241,23 @@ export const projects: Project[] = [
     ],
     heroImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=800&fit=crop&q=80"
   },
-  {
-    id: 10,
-    slug: "odoo-aramex-shipping",
-    title: "Aramex Shipping Module for Odoo",
-    shortDescription: "Automated Aramex shipping integration with Odoo.",
-    longDescription: "A complete shipping module that connects Odoo orders with Aramex API for label creation, shipment tracking, and rate calculation.",
-    priceEstimate: "From $2,400",
-    deliveryTime: "3–4 weeks",
-    difficultyLevel: "Medium",
-    technologies: ["Python", "Odoo", "REST API"],
-    features: [
-      "Rate calculation",
-      "Shipment creation",
-      "Tracking updates",
-      "Label generation",
-      "Cash-on-delivery support"
-    ],
-    heroImage: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&h=800&fit=crop&q=80"
-  }
+  // {
+  //   id: 13,
+  //   slug: "odoo-aramex-shipping",
+  //   title: "Aramex Shipping Module for Odoo",
+  //   shortDescription: "Automated Aramex shipping integration with Odoo.",
+  //   longDescription: "A complete shipping module that connects Odoo orders with Aramex API for label creation, shipment tracking, and rate calculation.",
+  //   priceEstimate: "From $2,400",
+  //   deliveryTime: "3–4 weeks",
+  //   difficultyLevel: "Medium",
+  //   technologies: ["Python", "Odoo", "REST API"],
+  //   features: [
+  //     "Rate calculation",
+  //     "Shipment creation",
+  //     "Tracking updates",
+  //     "Label generation",
+  //     "Cash-on-delivery support"
+  //   ],
+  //   heroImage: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&h=800&fit=crop&q=80"
+  // }
 ];

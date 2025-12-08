@@ -1,9 +1,11 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, TrendingUp } from "lucide-react";
+import { Calendar, Clock, TrendingUp, ShoppingCart } from "lucide-react";
 import { PriceDisplay, extractBasePrice } from "@/components/PriceDisplay";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { AddToCartDialog } from "@/components/AddToCartDialog";
+import { useState } from "react";
 
 interface PriceBoxProps {
   price: string;
@@ -11,10 +13,15 @@ interface PriceBoxProps {
   difficultyLevel: string;
   features: string[];
   projectTitle: string;
+  projectId: number;
+  projectSlug: string;
 }
 
-export function PriceBox({ price, deliveryTime, difficultyLevel, features, projectTitle }: PriceBoxProps) {
-  const { getWhatsAppLink } = useCurrency();
+export function PriceBox({ price, deliveryTime, difficultyLevel, features, projectTitle, projectId, projectSlug }: PriceBoxProps) {
+  const { getWhatsAppLink, convertPrice } = useCurrency();
+  const [showDialog, setShowDialog] = useState(false);
+  const basePrice = extractBasePrice(price);
+  const convertedPrice = parseFloat(convertPrice(basePrice).replace(/,/g, ''));
 
   return (
     <Card className="shadow-md border-2 hover:shadow-lg transition-shadow">
@@ -66,17 +73,36 @@ export function PriceBox({ price, deliveryTime, difficultyLevel, features, proje
       </CardContent>
       
       <CardFooter className="flex-col gap-2 pt-4">
-        <Button size="lg" className="w-full h-11 font-medium" asChild>
+        <Button 
+          size="lg" 
+          className="w-full h-11 font-medium"
+          onClick={() => setShowDialog(true)}
+        >
+          <ShoppingCart className="ml-2 h-4 w-4" />
+          Add to Cart
+        </Button>
+        
+        <Button size="lg" variant="outline" className="w-full h-11" asChild>
           <a href={getWhatsAppLink(projectTitle)} target="_blank" rel="noopener noreferrer">
             Request Custom Quote
           </a>
         </Button>
-        <Button size="lg" variant="outline" className="w-full h-11" asChild>
+        
+        <Button size="lg" variant="secondary" className="w-full h-11" asChild>
           <a href={getWhatsAppLink(projectTitle)} target="_blank" rel="noopener noreferrer">
             Schedule Consultation
           </a>
         </Button>
       </CardFooter>
+      
+      <AddToCartDialog
+        open={showDialog}
+        onOpenChange={setShowDialog}
+        projectId={projectId}
+        projectTitle={projectTitle}
+        projectSlug={projectSlug}
+        basePrice={convertedPrice}
+      />
     </Card>
   );
 }
