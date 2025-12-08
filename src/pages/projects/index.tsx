@@ -56,8 +56,8 @@ export function ProjectsListPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative border-b bg-background">
-        <div className="absolute inset-0 bg-muted/20" />
+      <div className="relative border-b bg-slate-900 text-white">
+        <div className="absolute inset-0 bg-black/20" />
         <div className="relative container mx-auto px-4 py-16 md:py-24">
           <motion.div 
             className="max-w-4xl mx-auto text-center space-y-4"
@@ -65,17 +65,17 @@ export function ProjectsListPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border bg-muted/50 text-sm mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-sm mb-4">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <span className="font-medium">10 Projects Available</span>
+              <span className="font-medium text-white">{projects.length} Projects Available</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
               Project Portfolio
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto">
               Enterprise-grade solutions across real estate, e-commerce, ERP systems, and custom integrations.
             </p>
           </motion.div>
@@ -83,7 +83,7 @@ export function ProjectsListPage() {
       </div>
 
       {/* Filters Section */}
-      <div ref={filterSectionRef} className="border-b bg-background sticky top-0 z-10 shadow-sm">
+      <div ref={filterSectionRef} className="border-b bg-background shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1">
@@ -189,11 +189,23 @@ export function ProjectsListPage() {
                   Let's discuss how we can bring your vision to life.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-                  <Button size="lg" className="h-12 px-8">
-                    Request Custom Quote
+                  <Button size="lg" className="h-12 px-8" asChild>
+                    <a 
+                      href="https://wa.me/96891200634?text=Hello%2C%20I%27m%20interested%20in%20requesting%20a%20custom%20quote%20for%20a%20project.%20Could%20you%20please%20provide%20more%20information%3F" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Request Custom Quote
+                    </a>
                   </Button>
-                  <Button size="lg" variant="outline" className="h-12 px-8">
-                    View All Services
+                  <Button size="lg" variant="outline" className="h-12 px-8" asChild>
+                    <a 
+                      href="https://sbc.om" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      View All Services
+                    </a>
                   </Button>
                 </div>
               </div>

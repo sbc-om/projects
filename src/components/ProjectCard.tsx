@@ -1,7 +1,5 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PriceDisplay, extractBasePrice } from "@/components/PriceDisplay";
 import { motion } from "framer-motion";
@@ -72,7 +70,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               <span className="font-medium">{project.deliveryTime}</span>
             </div>
             
-            <div className="pt-2 border-t">
+            <div className="py-2 border-t">
               <div className="flex items-baseline gap-1">
                 <span className="text-xs text-muted-foreground">From</span>
                 <p className="text-xl font-bold text-primary">
@@ -83,15 +81,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </div>
         </CardContent>
       </Link>
-      
-      <CardFooter className="p-4 pt-0 mt-auto border-t">
-        <Link to={`/projects/${project.slug}`} className="w-full">
-          <Button variant="ghost" className="w-full group/btn transition-colors text-sm h-9 hover:bg-primary hover:text-primary-foreground">
-            View Project
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-          </Button>
-        </Link>
-      </CardFooter>
     </Card>
     </motion.div>
   );

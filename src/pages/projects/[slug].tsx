@@ -33,14 +33,14 @@ export function ProjectDetailsPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Back Button */}
-      <div className="border-b sticky top-0 z-10 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b bg-background shadow-sm">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => navigate(-1)}
-              className="group transition-all hover:scale-105"
+              className="group transition-all hover:bg-muted"
             >
               <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
               Back
@@ -52,10 +52,10 @@ export function ProjectDetailsPage() {
 
       {/* Hero Section */}
       <motion.div 
-        className="container mx-auto px-4 py-8"
-        initial={{ opacity: 0, y: 20 }}
+        className="container mx-auto px-4 py-6"
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <ProjectHero
           title={project.title}
@@ -71,10 +71,10 @@ export function ProjectDetailsPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left Column - Details */}
             <motion.div 
-              className="lg:col-span-2 space-y-8"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:col-span-2 space-y-6"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
             >
               {/* Overview */}
               <div className="space-y-4">
@@ -93,12 +93,19 @@ export function ProjectDetailsPage() {
 
               {/* Technologies */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Technology Stack</h2>
+                <h2 className="text-2xl font-bold tracking-tight">Technology Stack</h2>
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="text-sm px-3 py-1.5">
-                      {tech}
-                    </Badge>
+                  {project.technologies.map((tech, idx) => (
+                    <motion.div
+                      key={tech}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.2, delay: idx * 0.05 }}
+                    >
+                      <Badge variant="secondary" className="text-sm px-3 py-1.5">
+                        {tech}
+                      </Badge>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -107,11 +114,11 @@ export function ProjectDetailsPage() {
 
               {/* Project Timeline */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Clock className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-primary" />
                   Development Timeline
                 </h2>
-                <Card>
+                <Card className="border-2">
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
@@ -154,11 +161,11 @@ export function ProjectDetailsPage() {
 
               {/* Why Choose This Solution */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <Zap className="h-6 w-6 text-primary" />
+                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
                   Why Choose This Solution
                 </h2>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {[
                     "Production-ready architecture",
                     "Scalable & maintainable code",
@@ -167,11 +174,19 @@ export function ProjectDetailsPage() {
                     "Post-launch support",
                     "Security best practices"
                   ].map((benefit, idx) => (
-                    <Card key={idx} >
-                      <CardContent className="p-4">
-                        <p className="text-sm font-medium">{benefit}</p>
-                      </CardContent>
-                    </Card>
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.1 }}
+                    >
+                      <Card className="border hover:border-primary/50 transition-colors">
+                        <CardContent className="p-4 flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          <p className="text-sm font-medium">{benefit}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -180,9 +195,9 @@ export function ProjectDetailsPage() {
             {/* Right Column - Pricing */}
             <motion.div 
               className="lg:col-span-1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
             >
               <PriceBox
                 price={project.priceEstimate}
