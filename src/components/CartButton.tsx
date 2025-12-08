@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/contexts/CartContext";
-import { ShoppingCart, Trash2, FileText } from "lucide-react";
+import { ShoppingCart, Trash2, FileText, Plus, Minus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 
 export function CartButton() {
-  const { items, removeFromCart, getTotalPrice } = useCart();
+  const { items, removeFromCart, updateQuantity, getTotalPrice } = useCart();
 
   return (
     <Sheet>
@@ -67,11 +67,37 @@ export function CartButton() {
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
+                    
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Price:</span>
-                      <span className="font-bold text-lg">
-                        {item.currency} {item.finalPrice.toLocaleString()}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.projectId, item.quantity - 1)}
+                        >
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="text-sm font-medium w-8 text-center">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.projectId, item.quantity + 1)}
+                        >
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-muted-foreground">
+                          {item.currency} {item.finalPrice.toLocaleString()} each
+                        </p>
+                        <p className="font-bold text-lg">
+                          {item.currency} {(item.finalPrice * item.quantity).toLocaleString()}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}

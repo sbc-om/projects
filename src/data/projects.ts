@@ -17,18 +17,18 @@ export const projects: Project[] = [
     id: 1,
     slug: "real-estate-website",
     title: "Real Estate Website",
-    shortDescription: "A modern and scalable real estate platform with property listings, maps, filters, and CRM tools.",
-    longDescription: "A fully customized real estate platform designed for agencies to publish listings, manage leads, connect WhatsApp, and automate customer engagement. Includes maps integration, filters, project pages, and admin dashboard.",
-    priceEstimate: "From $2,500",
+    shortDescription: "AI-powered real estate platform with intelligent property recommendations, multi-language support, and advanced CRM tools.",
+    longDescription: "A cutting-edge real estate platform managed by artificial intelligence that recommends the best properties to customers based on their preferences and behavior. Features AI-powered property matching, smart search filters, interactive maps, and WhatsApp integration. Supports multiple languages including English, Arabic, Russian, Persian, and any other language requested by the client. Includes comprehensive admin dashboard, lead management, and automated customer engagement.",
+    priceEstimate: "From $6,500",
     deliveryTime: "3–5 weeks",
     difficultyLevel: "Medium",
-    technologies: ["React 19", "Next.js", "Supabase", "shadcn/ui", "Cloudflare"],
+    technologies: ["React 19", "Next.js", "AI/ML", "Supabase", "shadcn/ui", "Cloudflare"],
     features: [
-      "Advanced property search & filters",
+      "AI-powered property recommendations",
       "Interactive maps (Google/Mapbox)",
       "Agent dashboard & CRM tools",
       "WhatsApp quick messaging",
-      "Multi-language support (EN/AR)"
+      "Multi-language support (EN/AR/RU/FA & more)"
     ],
     heroImage: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=800&fit=crop&q=80"
   },
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: "AI-Powered E-Commerce Store",
     shortDescription: "A smart store with AI-based product tagging, recommendations, and dynamic filtering.",
     longDescription: "An advanced online store powered by AI for automatic product classification, smart recommendations, and ultra-fast filtering. Includes admin panel, payment gateway, and mobile-friendly design.",
-    priceEstimate: "From $3,000",
+    priceEstimate: "From $5,000",
     deliveryTime: "4–6 weeks",
     difficultyLevel: "High",
     technologies: ["React 19", "Next.js", "AI Models", "Stripe", "Tailwind/Shadcn"],
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     title: "WhatsApp Management Software",
     shortDescription: "A powerful dashboard to manage WhatsApp chats, automation, bulk messaging, and templates.",
     longDescription: "A complete WhatsApp business software with contact grouping, chat templates, broadcast messages, auto-reply rules, and multi-agent support.",
-    priceEstimate: "From $4,200",
+    priceEstimate: "From $4,600",
     deliveryTime: "3–4 weeks",
     difficultyLevel: "Medium",
     technologies: ["React", "Node.js", "WhatsApp API", "shadcn/ui"],
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     title: "Call Center System",
     shortDescription: "A cloud call-center platform integrated with IVR, routing, agent dashboard, and reporting.",
     longDescription: "A complete call-center solution with IVR menus, forwarding logic, analytics dashboard, ticketing, and CRM integration.",
-    priceEstimate: "From $5,500",
+    priceEstimate: "From $5,800",
     deliveryTime: "5–8 weeks",
     difficultyLevel: "High",
     technologies: ["Asterisk", "React", "WebRTC", "VoIP APIs"],
@@ -95,7 +95,7 @@ export const projects: Project[] = [
     title: "Video Call Platform",
     shortDescription: "Secure, high-quality video meetings built using WebRTC.",
     longDescription: "A scalable video communication system with screen sharing, chat, recording, and meeting scheduling.",
-    priceEstimate: "From $5,000",
+    priceEstimate: "From $8,000",
     deliveryTime: "5–7 weeks",
     difficultyLevel: "High",
     technologies: ["React", "WebRTC", "Node.js", "shadcn"],
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     title: "Meeting Management & Recording",
     shortDescription: "A system for scheduling, hosting, and recording meetings with AI summaries.",
     longDescription: "A productivity system for teams to manage meetings, auto-record them, transcribe audio, and generate AI summaries.",
-    priceEstimate: "From $6,000",
+    priceEstimate: "From $9,000",
     deliveryTime: "6–8 weeks",
     difficultyLevel: "High",
     technologies: ["React", "WebRTC", "AI Models", "Node.js"],
@@ -241,23 +241,156 @@ export const projects: Project[] = [
     ],
     heroImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=800&fit=crop&q=80"
   },
-  // {
-  //   id: 13,
-  //   slug: "odoo-aramex-shipping",
-  //   title: "Aramex Shipping Module for Odoo",
-  //   shortDescription: "Automated Aramex shipping integration with Odoo.",
-  //   longDescription: "A complete shipping module that connects Odoo orders with Aramex API for label creation, shipment tracking, and rate calculation.",
-  //   priceEstimate: "From $2,400",
-  //   deliveryTime: "3–4 weeks",
-  //   difficultyLevel: "Medium",
-  //   technologies: ["Python", "Odoo", "REST API"],
-  //   features: [
-  //     "Rate calculation",
-  //     "Shipment creation",
-  //     "Tracking updates",
-  //     "Label generation",
-  //     "Cash-on-delivery support"
-  //   ],
-  //   heroImage: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&h=800&fit=crop&q=80"
-  // }
+  {
+    id: 13,
+    slug: "call-tracker-android",
+    title: "Call Tracker Android (Odoo CRM Integration)",
+    shortDescription: "Automatically create leads in Odoo CRM from all incoming and outgoing calls on Android devices.",
+    longDescription: "A powerful Android application that integrates seamlessly with Odoo CRM to automatically capture all phone call activities. Every incoming and outgoing call is logged as a lead in Odoo with caller details, duration, timestamp, and call recording options. Perfect for sales teams to never miss a potential opportunity.",
+    priceEstimate: "From $3,200",
+    deliveryTime: "3–4 weeks",
+    difficultyLevel: "Medium",
+    technologies: ["Android", "Kotlin", "Odoo API", "Firebase"],
+    features: [
+      "Auto-create leads from all calls",
+      "Call recording & attachment",
+      "Caller ID & contact matching",
+      "Real-time sync with Odoo CRM",
+      "Call duration & timestamp logging"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 14,
+    slug: "whatsapp-crm",
+    title: "WhatsApp CRM System",
+    shortDescription: "Professional CRM system built on WhatsApp for fast and effective communication between sales teams and customers.",
+    longDescription: "A comprehensive WhatsApp-based CRM solution that enables professional customer relationship management directly through WhatsApp. Manage contacts, track conversations, automate responses, assign leads to team members, and maintain full conversation history. Perfect for businesses that want to leverage WhatsApp's popularity for customer engagement.",
+    priceEstimate: "From $5,500",
+    deliveryTime: "5–7 weeks",
+    difficultyLevel: "High",
+    technologies: ["Node.js", "WhatsApp Business API", "React", "MongoDB", "Redis"],
+    features: [
+      "Contact management & segmentation",
+      "Multi-agent conversation assignment",
+      "Automated workflows & responses",
+      "Conversation history & analytics",
+      "Lead tracking & pipeline management"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 15,
+    slug: "telegram-crm",
+    title: "Telegram CRM System",
+    shortDescription: "Complete CRM solution built on Telegram for managing customer relationships and sales pipelines.",
+    longDescription: "A feature-rich CRM system that leverages Telegram's powerful bot API to provide professional customer relationship management. Includes contact management, automated messaging, team collaboration, lead tracking, and comprehensive analytics. Ideal for businesses that prefer Telegram's security and flexibility.",
+    priceEstimate: "From $4,800",
+    deliveryTime: "4–6 weeks",
+    difficultyLevel: "High",
+    technologies: ["Node.js", "Telegram Bot API", "React", "PostgreSQL"],
+    features: [
+      "Contact & lead management",
+      "Automated bot responses",
+      "Team collaboration & assignment",
+      "Sales pipeline tracking",
+      "Analytics & reporting dashboard"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 16,
+    slug: "real-estate-tokenization",
+    title: "Real Estate Tokenization System",
+    shortDescription: "Blockchain-based platform for tokenizing real estate assets and enabling fractional ownership.",
+    longDescription: "A cutting-edge blockchain solution that enables property tokenization, allowing real estate assets to be divided into digital tokens for fractional ownership. Includes smart contracts for automated transactions, investor dashboard, compliance management, and secondary market trading. Transform traditional real estate investment into accessible digital assets.",
+    priceEstimate: "From $18,000",
+    deliveryTime: "10–14 weeks",
+    difficultyLevel: "Very High",
+    technologies: ["Solidity", "Ethereum/Polygon", "React", "Web3.js", "IPFS"],
+    features: [
+      "Property tokenization & smart contracts",
+      "Fractional ownership management",
+      "Investor dashboard & KYC/AML",
+      "Secondary market trading",
+      "Automated dividend distribution"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 17,
+    slug: "building-management-system",
+    title: "Building Management System (BMS)",
+    shortDescription: "Comprehensive property management platform for residential and commercial buildings.",
+    longDescription: "A complete building management solution designed for property managers, residents, and facility teams. Manage maintenance requests, tenant communications, payments, amenity bookings, visitor management, and facility operations. Includes mobile apps for residents and staff, automated billing, and detailed reporting.",
+    priceEstimate: "From $12,500",
+    deliveryTime: "8–12 weeks",
+    difficultyLevel: "High",
+    technologies: ["React", "Node.js", "PostgreSQL", "React Native", "Payment Gateway"],
+    features: [
+      "Maintenance request management",
+      "Tenant portal & communication",
+      "Automated billing & payments",
+      "Amenity booking system",
+      "Visitor & access management"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 18,
+    slug: "real-estate-crowdfunding",
+    title: "Real Estate Crowdfunding Platform",
+    shortDescription: "Investment platform for crowdfunding real estate development projects with equity or debt models.",
+    longDescription: "A professional crowdfunding platform specifically designed for real estate development projects. Enables developers to raise capital from multiple investors while providing investors with detailed project information, investment tracking, and returns management. Includes KYC/AML compliance, secure payment processing, project milestones tracking, and investor communications.",
+    priceEstimate: "From $16,000",
+    deliveryTime: "10–14 weeks",
+    difficultyLevel: "Very High",
+    technologies: ["React", "Node.js", "PostgreSQL", "Stripe/Payment Gateway", "AWS"],
+    features: [
+      "Project listing & fundraising campaigns",
+      "Investor KYC/AML verification",
+      "Secure payment processing",
+      "Investment tracking & returns",
+      "Milestone-based fund release"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 19,
+    slug: "ai-document-intelligence",
+    title: "AI Document Intelligence & Automation",
+    shortDescription: "Advanced AI system for automatic document processing, extraction, classification, and intelligent workflow automation.",
+    longDescription: "A cutting-edge AI-powered platform that revolutionizes document management. Automatically extracts data from invoices, contracts, forms, and IDs using OCR and NLP. Intelligently classifies documents, validates information, routes for approval, and integrates with ERP systems. Reduces manual data entry by 95% and processing time from hours to seconds.",
+    priceEstimate: "From $14,500",
+    deliveryTime: "8–10 weeks",
+    difficultyLevel: "Very High",
+    technologies: ["Python", "TensorFlow", "OpenAI GPT", "OCR", "React", "PostgreSQL"],
+    features: [
+      "AI-powered OCR & data extraction",
+      "Intelligent document classification",
+      "Automated validation & verification",
+      "Smart workflow routing",
+      "ERP/CRM integration"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=800&fit=crop&q=80"
+  },
+  {
+    id: 20,
+    slug: "smart-inventory-iot",
+    title: "Smart Inventory Management with IoT & AI",
+    shortDescription: "IoT-enabled intelligent inventory system with real-time tracking, predictive analytics, and automated reordering.",
+    longDescription: "Next-generation inventory management combining IoT sensors, RFID technology, and AI predictive analytics. Real-time stock monitoring, automated reorder triggers, expiry tracking, warehouse optimization, and demand forecasting. Includes mobile apps, barcode/RFID scanning, multi-warehouse support, and integration with e-commerce and ERP systems.",
+    priceEstimate: "From $11,200",
+    deliveryTime: "7–10 weeks",
+    difficultyLevel: "High",
+    technologies: ["React", "Node.js", "IoT", "RFID", "AI/ML", "MongoDB", "React Native"],
+    features: [
+      "Real-time IoT sensor monitoring",
+      "RFID & barcode scanning",
+      "AI-powered demand forecasting",
+      "Automated reorder management",
+      "Multi-warehouse optimization"
+    ],
+    heroImage: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&h=800&fit=crop&q=80"
+  }
 ];

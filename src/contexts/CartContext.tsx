@@ -7,14 +7,16 @@ export interface CartItem {
   projectSlug: string;
   finalPrice: number;
   currency: string;
+  quantity: number;
   addedAt: Date;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: Omit<CartItem, "addedAt">) => void;
+  addToCart: (item: Omit<CartItem, "addedAt" | "quantity">) => void;
   removeFromCart: (projectId: number) => void;
   updatePrice: (projectId: number, newPrice: number) => void;
+  updateQuantity: (projectId: number, quantity: number) => void;
   clearCart: () => void;
   getTotalPrice: () => number;
 }
@@ -50,18 +52,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items]);
 
-  const addToCart = (item: Omit<CartItem, "addedAt">) => {
+  const addToCart = (item: Omit<CartItem, "addedAt" | "quantity">) => {
     setItems((prev) => {
       // Check if item already exists
       const existingIndex = prev.findIndex((i) => i.projectId === item.projectId);
       if (existingIndex >= 0) {
-        // Update existing item
+        // Update existing item and increment quantity
         const updated = [...prev];
-        updated[existingIndex] = { ...item, addedAt: new Date() };
+        updated[existingIndex] = { 
+          ...item, 
+          quantity: updated[existingIndex].quantity + 1,
+          addedAt: new Date() 
+        };
         return updated;
       }
-      // Add new item
-      return [...prev, { ...item, addedAt: new Date() }];
+      // Add new item with quantity 1
+      return [...prev, { ...item, quantity: 1, addedAt: new Date() }];
     });
   };
 
@@ -77,12 +83,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const updateQuantity = (projectId: number, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(projectId);
+      return;
+    }
+    setItems((prev) =>
+      prev.map((item) =>
+        item.projectId === projectId ? { ...item, quantity } : item
+      )
+    );
+  };
+
   const clearCart = () => {
     setItems([]);
   };
 
   const getTotalPrice = () => {
-    return items.reduce((sum, item) => sum + item.finalPrice, 0);
+    return items.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
   };
 
   return (
@@ -92,6 +110,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addToCart,
         removeFromCart,
         updatePrice,
+        updateQuantity,
         clearCart,
         getTotalPrice,
       }}

@@ -74,10 +74,10 @@ export function ProjectsListPage() {
               <span className="font-medium text-white">{projects.length} Projects Available</span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-              Project Portfolio
+              Custom Software Solutions
             </h1>
             <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto">
-              Enterprise-grade solutions across real estate, e-commerce, ERP systems, and custom integrations.
+              Ready-to-customize projects tailored to your business needs. Our expert team can implement and adapt any solution to match your requirements.
             </p>
           </motion.div>
         </div>

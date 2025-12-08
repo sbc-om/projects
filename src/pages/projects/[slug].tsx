@@ -265,10 +265,15 @@ export function ProjectDetailsPage() {
               tailored to your business needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button size="lg" variant="secondary">
-                Request Detailed Quote
+              <Button size="lg" variant="secondary" asChild>
+                <a 
+                  href={`https://wa.me/96891200634?text=Hello%2C%20I'm%20interested%20in%20${encodeURIComponent(project.title)}.%20Could%20you%20provide%20more%20details%3F`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Request Detailed Quote
+                </a>
               </Button>
- 
             </div>
           </div>
         </div>

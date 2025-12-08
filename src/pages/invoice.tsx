@@ -3,16 +3,13 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
-import { Download, ArrowLeft, Printer } from "lucide-react";
+import { ArrowLeft, Printer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState, useMemo } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import { useState, useMemo } from "react";
 
 export function InvoicePage() {
   const { items, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
-  const invoiceRef = useRef<HTMLDivElement>(null);
   const [discountPercent, setDiscountPercent] = useState<string>("0");
 
   const subtotal = getTotalPrice();
@@ -21,66 +18,6 @@ export function InvoicePage() {
     return (subtotal * percent) / 100;
   }, [subtotal, discountPercent]);
   const total = subtotal - discount;
-
-  const generatePDF = async () => {
-    if (!invoiceRef.current) return;
-
-    try {
-      // Wait a bit for any images to load
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      const canvas = await html2canvas(invoiceRef.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        onclone: (clonedDoc) => {
-          // Ensure all images are loaded in the cloned document
-          const images = clonedDoc.getElementsByTagName('img');
-          Array.from(images).forEach(img => {
-            if (img.src.endsWith('.svg')) {
-              // Force inline style for SVG images
-              img.style.display = 'block';
-            }
-          });
-        }
-      });
-      
-      const imgData = canvas.toDataURL("image/png", 1.0);
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      
-      // Handle multi-page if needed
-      if (pdfHeight > pageHeight) {
-        let heightLeft = canvas.height;
-        let position = 0;
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-        
-        // First page
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight * (canvas.width / pdfWidth);
-        
-        // Add additional pages if needed
-        while (heightLeft > 0) {
-          position = -(pdf.internal.pageSize.getHeight() * (canvas.width / pdfWidth) - heightLeft);
-          pdf.addPage();
-          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight * (canvas.width / pdfWidth);
-        }
-      } else {
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      }
-      
-      pdf.save(`SBC-Proforma-Invoice-${Date.now()}.pdf`);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      alert("Failed to generate PDF. Please try using the Print button instead.");
-    }
-  };
 
   const handlePrint = () => {
     window.print();
@@ -115,16 +52,10 @@ export function InvoicePage() {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
             </Button>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={handlePrint}>
-                <Printer className="h-4 w-4 mr-2" />
-                Print
-              </Button>
-              <Button onClick={generatePDF}>
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
-            </div>
+            <Button variant="outline" onClick={handlePrint}>
+              <Printer className="h-4 w-4 mr-2" />
+              Print Invoice
+            </Button>
           </div>
         </div>
       </div>
@@ -132,7 +63,6 @@ export function InvoicePage() {
       {/* Invoice Content */}
       <div className="container mx-auto px-4 py-4">
         <Card 
-          ref={invoiceRef}
           className="max-w-4xl mx-auto p-4 md:p-6 bg-white print:shadow-none print:p-4"
         >
           {/* Header */}
@@ -166,7 +96,9 @@ export function InvoicePage() {
                 <tr className="border-b-2 border-slate-300">
                   <th className="text-left py-1.5 px-2 font-semibold text-sm">#</th>
                   <th className="text-left py-1.5 px-2 font-semibold text-sm">Project / Service</th>
-                  <th className="text-right py-1.5 px-2 font-semibold text-sm">Amount</th>
+                  <th className="text-center py-1.5 px-2 font-semibold text-sm">Qty</th>
+                  <th className="text-right py-1.5 px-2 font-semibold text-sm">Price</th>
+                  <th className="text-right py-1.5 px-2 font-semibold text-sm">Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,8 +111,14 @@ export function InvoicePage() {
                         <p className="text-xs text-slate-500">Custom Software Development</p>
                       </div>
                     </td>
+                    <td className="py-2 px-2 text-center text-sm">
+                      {item.quantity}
+                    </td>
                     <td className="py-2 px-2 text-right font-medium text-sm">
                       {item.currency} {item.finalPrice.toLocaleString()}
+                    </td>
+                    <td className="py-2 px-2 text-right font-medium text-sm">
+                      {item.currency} {(item.finalPrice * item.quantity).toLocaleString()}
                     </td>
                   </tr>
                 ))}
