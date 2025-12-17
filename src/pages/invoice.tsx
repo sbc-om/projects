@@ -41,6 +41,8 @@ export function InvoicePage() {
 
   const today = new Date();
   const invoiceNumber = `INV-${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, "0")}${String(today.getDate()).padStart(2, "0")}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+  const appendixHref = `/invoice/appendix?ref=${encodeURIComponent(invoiceNumber)}&date=${encodeURIComponent(today.toLocaleDateString())}`;
   
   return (
     <div className="min-h-screen bg-background">
@@ -52,10 +54,15 @@ export function InvoicePage() {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
             </Button>
-            <Button variant="outline" onClick={handlePrint}>
-              <Printer className="h-4 w-4 mr-2" />
-              Print Invoice
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={() => navigate(appendixHref)}>
+                Invoice Appendix
+              </Button>
+              <Button variant="outline" onClick={handlePrint}>
+                <Printer className="h-4 w-4 mr-2" />
+                Print Invoice
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +195,7 @@ export function InvoicePage() {
           </div>
 
           {/* Footer */}
-          <div className="mt-3 pt-3 border-t text-center text-xs text-slate-500">
+          <div className="mt-3 pt-3 border-t dark:border-slate-700 text-center text-xs text-slate-500 dark:text-slate-400">
             <p>Thank you for your business!</p>
             <p className="mt-2">Senior Blockchain LLC | Building Digital Excellence</p>
           </div>

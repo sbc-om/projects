@@ -1,7 +1,7 @@
 import { useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-export type Currency = "USD" | "OMR" | "AED" | "IRT";
+export type Currency = "USD" | "OMR" | "AED";
 
 interface CurrencyContextType {
   currency: Currency;
@@ -15,15 +15,13 @@ interface CurrencyContextType {
 const EXCHANGE_RATES: Record<Currency, number> = {
   USD: 1,
   OMR: 0.385,
-  AED: 3.67,
-  IRT: 124000
+  AED: 3.67
 };
 
 const CURRENCY_SYMBOLS: Record<Currency, string> = {
   USD: "$",
   OMR: "OMR",
-  AED: "AED",
-  IRT: "Toman"
+  AED: "AED"
 };
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -43,12 +41,6 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   const convertPrice = (usdPrice: number): string => {
     const converted = usdPrice * exchangeRates[currency];
-    
-    if (currency === "IRT") {
-      return new Intl.NumberFormat('en-US', {
-        maximumFractionDigits: 0
-      }).format(converted);
-    }
     
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,

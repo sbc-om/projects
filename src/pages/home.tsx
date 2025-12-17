@@ -123,7 +123,7 @@ export function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <Card className="border-2 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] h-full">
+                <Card className="border-2 transition-all duration-300 hover:scale-[1.02] h-full">
                   <CardContent className="pt-6 space-y-3">
                     <motion.div 
                       className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center"
@@ -164,7 +164,7 @@ export function HomePage() {
       {/* CTA Section */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
-          <Card className="border-2 shadow-xl">
+          <Card className="border-2">
             <CardContent className="p-8 md:p-12 text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">
                 Ready to Start Your Project?

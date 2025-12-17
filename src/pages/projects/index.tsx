@@ -2,6 +2,10 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { Section } from "@/components/Section";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { CartButton } from "@/components/CartButton";
+import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { EnhancedHero } from "@/components/EnhancedHero";
+import { FadeInView } from "@/components/AnimationWrappers";
 import { projects } from "@/data/projects";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,12 +17,21 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Search, Filter } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export function ProjectsListPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [difficultyFilter, setDifficultyFilter] = useState<string>("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [scrollY, setScrollY] = useState(0);
   const filterSectionRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax effect
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   // Prevent auto-scroll when interacting with filters
   useEffect(() => {
@@ -41,44 +54,112 @@ export function ProjectsListPage() {
     return () => document.removeEventListener('focusin', preventScroll, true);
   }, []);
 
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(projects.map((p) => p.category)));
+
+    const preferredOrder = [
+      "PropTech & Real Estate",
+      "E-Commerce & Retail",
+      "Communication & CRM",
+      "Voice & Contact Center",
+      "Voice & Video",
+      "ERP & Integrations",
+      "Mobile Apps",
+      "AI & Automation",
+      "AI & IoT",
+      "Blockchain & Web3",
+      "FinTech & Investment",
+      "Healthcare & Beauty",
+      "Monthly Services"
+    ];
+
+    const ordered = preferredOrder.filter((c) => unique.includes(c));
+    const rest = unique.filter((c) => !preferredOrder.includes(c)).sort();
+    return [...ordered, ...rest];
+  }, []);
+
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = 
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.shortDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesDifficulty = 
-      difficultyFilter === "all" || project.difficultyLevel === difficultyFilter;
 
-    return matchesSearch && matchesDifficulty;
+    const matchesCategory = categoryFilter === "all" || project.category === categoryFilter;
+
+    return matchesSearch && matchesCategory;
   });
 
+  const showGroupedByCategory =
+    searchTerm.trim() === "" && categoryFilter === "all";
+
+  const projectsByCategory = useMemo(() => {
+    if (!showGroupedByCategory) return [] as Array<{ category: string; items: typeof projects }>;
+    return categories
+      .map((category) => ({
+        category,
+        items: projects.filter((p) => p.category === category),
+      }))
+      .filter((g) => g.items.length > 0);
+  }, [categories, showGroupedByCategory]);
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <div className="relative border-b bg-slate-900 text-white">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="relative container mx-auto px-4 py-12 md:py-20">
-          <div className="max-w-4xl mx-auto text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-sm mb-4">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-              </span>
-              <span className="font-medium text-white">{projects.length} Projects Available</span>
+    <div className="min-h-screen bg-background relative z-10">
+      {/* Top Navigation */}
+      <motion.div 
+        className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl sticky top-0 z-50"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{
+          boxShadow: scrollY > 50 ? "0 4px 20px rgba(0, 0, 0, 0.1)" : "none",
+          transition: "box-shadow 0.3s ease",
+        }}
+      >
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <Logo />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <CurrencySelector />
+              <CartButton />
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-              Custom Software Solutions
-            </h1>
-            <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto">
-              Ready-to-customize projects tailored to your business needs. Our expert team can implement and adapt any solution to match your requirements.
-            </p>
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Hero Section */}
+      <EnhancedHero className="relative border-b dark:border-white/5 text-slate-900 dark:text-white">
+        <div className="container mx-auto px-4 py-16 md:py-24">
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.h1 
+                className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                Software Solutions
+              </motion.h1>
+              
+              <motion.p 
+                className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                {projects.length} ready-to-customize projects for your business
+              </motion.p>
+            </motion.div>
+          </div>
+        </div>
+      </EnhancedHero>
 
       {/* Filters Section */}
-      <div ref={filterSectionRef} className="border-b bg-background shadow-sm">
+      <div ref={filterSectionRef} className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl relative z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1">
@@ -93,29 +174,28 @@ export function ProjectsListPage() {
               />
             </div>
             <div className="flex gap-2 flex-wrap">
-              <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
-                <SelectTrigger className="w-[180px] h-10">
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-[220px] h-10">
                   <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Difficulty" />
+                  <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Levels</SelectItem>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                  <SelectItem value="Very High">Very High</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <CurrencySelector />
-              <CartButton />
-              {(searchTerm || difficultyFilter !== "all") && (
+              {(searchTerm || categoryFilter !== "all") && (
                 <Button 
                   variant="ghost" 
                   size="sm"
                   className="h-10"
                   onClick={() => {
                     setSearchTerm("");
-                    setDifficultyFilter("all");
+                    setCategoryFilter("all");
                   }}
                 >
                   Clear Filters
@@ -127,7 +207,7 @@ export function ProjectsListPage() {
       </div>
 
       {/* Projects Grid */}
-      <Section className="py-8">
+      <Section className="py-8 relative z-10">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
@@ -139,11 +219,37 @@ export function ProjectsListPage() {
               Browse our comprehensive collection of successful projects and solutions
             </p>
           </div>
-          
-          {filteredProjects.length > 0 ? (
+
+          {showGroupedByCategory ? (
+            <div className="space-y-10">
+              {projectsByCategory.map((group, groupIndex) => (
+                <FadeInView key={group.category} delay={groupIndex * 0.1}>
+                  <div>
+                    <div className="flex items-end justify-between gap-4 mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold tracking-tight">{group.category}</h3>
+                        <p className="text-sm text-muted-foreground">{group.items.length} items</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                      {group.items.map((project, index) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </FadeInView>
+              ))}
+            </div>
+          ) : filteredProjects.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
+                <FadeInView key={project.id} delay={index * 0.05}>
+                  <ProjectCard project={project} index={index} />
+                </FadeInView>
               ))}
             </div>
           ) : (
@@ -161,7 +267,7 @@ export function ProjectsListPage() {
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
-                  setDifficultyFilter("all");
+                  setCategoryFilter("all");
                 }}
               >
                 Clear All Filters
@@ -172,41 +278,42 @@ export function ProjectsListPage() {
       </Section>
 
       {/* CTA Section */}
-      <Section className="border-t bg-muted/30">
+      <Section className="border-t dark:border-white/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="border rounded-xl p-8 md:p-12 bg-card shadow-sm">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                  Have a Custom Project in Mind?
-                </h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  We specialize in building tailored solutions for your unique business needs. 
-                  Let's discuss how we can bring your vision to life.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-                  <Button size="lg" className="h-12 px-8" asChild>
-                    <a 
-                      href="https://wa.me/96891200634?text=Hello%2C%20I%27m%20interested%20in%20requesting%20a%20custom%20quote%20for%20a%20project.%20Could%20you%20please%20provide%20more%20information%3F" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      Request Custom Quote
-                    </a>
-                  </Button>
-                  <Button size="lg" variant="outline" className="h-12 px-8" asChild>
-                    <a 
-                      href="https://sbc.om" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      View All Services
-                    </a>
-                  </Button>
-                </div>
-              </div>
+          <motion.div 
+            className="max-w-2xl mx-auto text-center space-y-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Have a Custom Project?
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Let's discuss how we can bring your vision to life
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+              <Button size="lg" asChild>
+                <a 
+                  href="https://wa.me/96891200634?text=Hello%2C%20I%27m%20interested%20in%20requesting%20a%20custom%20quote%20for%20a%20project." 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Request Quote
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <a 
+                  href="https://sbc.om" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  View Services
+                </a>
+              </Button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Section>
     </div>

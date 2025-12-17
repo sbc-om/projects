@@ -9,7 +9,7 @@ interface ProjectHeroProps {
 
 export function ProjectHero({ title, description, technologies, heroImage }: ProjectHeroProps) {
   return (
-    <div className="relative h-[400px] w-full overflow-hidden rounded-lg border shadow-lg">
+    <div className="relative h-[400px] w-full overflow-hidden rounded-lg border">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 

@@ -1,16 +1,17 @@
 import { useParams, useNavigate, Navigate, Link } from "react-router-dom";
 import { projects } from "@/data/projects";
-import { ProjectHero } from "@/components/ProjectHero";
-import { ProjectFeature } from "@/components/ProjectFeature";
+
 import { PriceBox } from "@/components/PriceBox";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { CartButton } from "@/components/CartButton";
+import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Section, SectionHeader } from "@/components/Section";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Clock, Zap, ChevronRight } from "lucide-react";
+
+import { ArrowLeft, Clock, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function ProjectDetailsPage() {
@@ -22,31 +23,24 @@ export function ProjectDetailsPage() {
     return <Navigate to="/" replace />;
   }
 
-  // Get related projects (same difficulty level or similar tech)
+  // Get related projects (similar tech or same category)
   const relatedProjects = projects
     .filter((p) => 
       p.id !== project.id && 
-      (p.difficultyLevel === project.difficultyLevel || 
+      (p.category === project.category || 
        p.technologies.some(tech => project.technologies.includes(tech)))
     )
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Back Button */}
-      <div className="border-b bg-background shadow-sm">
+    <div className="min-h-screen bg-background relative z-10">
+      {/* Top Navigation */}
+      <div className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => navigate(-1)}
-              className="group transition-all hover:bg-muted"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
-              Back
-            </Button>
+            <Logo />
             <div className="flex items-center gap-2">
+              <ThemeToggle />
               <CurrencySelector />
               <CartButton />
             </div>
@@ -54,57 +48,107 @@ export function ProjectDetailsPage() {
         </div>
       </div>
 
+      {/* Back Button */}
+      <div className="border-b dark:border-white/5 bg-background/50">
+        <div className="container mx-auto px-4 py-3">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate(-1)}
+            className="group transition-all hover:bg-muted"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
+            Back to Projects
+          </Button>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <motion.div 
-        className="container mx-auto px-4 py-6"
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        <ProjectHero
-          title={project.title}
-          description={project.shortDescription}
-          technologies={project.technologies}
-          heroImage={project.heroImage}
-        />
-      </motion.div>
+      <div className="border-b dark:border-white/5">
+        <motion.div 
+          className="container mx-auto px-4 py-12 md:py-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Badge className="mb-4">{project.category}</Badge>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+                {project.title}
+              </h1>
+              <p className="text-xl text-muted-foreground mb-6">
+                {project.shortDescription}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {project.technologies.slice(0, 5).map((tech) => (
+                  <Badge key={tech} variant="outline">{tech}</Badge>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
 
       {/* Main Content */}
       <Section>
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-12">
             {/* Left Column - Details */}
             <motion.div 
-              className="lg:col-span-2 space-y-6"
-              initial={{ opacity: 0, y: 15 }}
+              className="lg:col-span-2 space-y-12"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
               {/* Overview */}
               <div className="space-y-4">
-                <SectionHeader 
-                  title="Project Overview"
-                  description={project.longDescription}
-                />
+                <h2 className="text-2xl font-bold">Overview</h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  {project.longDescription}
+                </p>
               </div>
 
-              <Separator />
+              <div className="border-t dark:border-white/5" />
 
               {/* Features */}
-              <ProjectFeature features={project.features} />
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Key Features</h2>
+                <div className="grid gap-3">
+                  {project.features.map((feature, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.1 }}
+                      className="flex items-start gap-3 p-4 rounded-lg border dark:border-white/5 bg-muted/30"
+                    >
+                      <div className="shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                        {idx + 1}
+                      </div>
+                      <p className="text-muted-foreground">{feature}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
 
-              <Separator />
+              <div className="border-t dark:border-white/5" />
 
               {/* Technologies */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold tracking-tight">Technology Stack</h2>
+                <h2 className="text-2xl font-bold">Technology Stack</h2>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech, idx) => (
                     <motion.div
                       key={tech}
                       initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.2, delay: idx * 0.05 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
                     >
                       <Badge variant="secondary" className="text-sm px-3 py-1.5">
                         {tech}
@@ -114,84 +158,26 @@ export function ProjectDetailsPage() {
                 </div>
               </div>
 
-              <Separator />
+              <div className="border-t dark:border-white/5" />
 
               {/* Project Timeline */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
                   <Clock className="h-5 w-5 text-primary" />
-                  Development Timeline
+                  Timeline
                 </h2>
-                <Card className="border-2">
-                  <CardContent className="pt-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-semibold">Estimated Delivery</p>
-                          <p className="text-sm text-muted-foreground">
-                            Based on project scope and requirements
-                          </p>
-                        </div>
-                        <Badge variant="outline" className="text-lg px-4 py-2">
-                          {project.deliveryTime}
-                        </Badge>
-                      </div>
-                      
-                      <div className="relative pt-4">
-                        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-muted" />
-                        <div className="space-y-4 relative">
-                          {[
-                            { phase: "Discovery & Planning", time: "Week 1" },
-                            { phase: "Design & Architecture", time: "Week 2-3" },
-                            { phase: "Development", time: "Week 3-5" },
-                            { phase: "Testing & Deployment", time: "Week 6" }
-                          ].map((item, idx) => (
-                            <div key={idx} className="flex items-start gap-4 pl-8">
-                              <div className="absolute left-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-                              <div className="flex-1">
-                                <p className="font-medium">{item.phase}</p>
-                                <p className="text-sm text-muted-foreground">{item.time}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                <div className="p-6 rounded-lg border dark:border-white/5 bg-muted/30">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold">Estimated Delivery</p>
+                      <p className="text-sm text-muted-foreground">
+                        Based on project scope
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <Separator />
-
-              {/* Why Choose This Solution */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
-                  Why Choose This Solution
-                </h2>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {[
-                    "Production-ready architecture",
-                    "Scalable & maintainable code",
-                    "Modern UI/UX design",
-                    "Full documentation included",
-                    "Post-launch support",
-                    "Security best practices"
-                  ].map((benefit, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: idx * 0.1 }}
-                    >
-                      <Card className="border hover:border-primary/50 transition-colors">
-                        <CardContent className="p-4 flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          <p className="text-sm font-medium">{benefit}</p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                    <Badge variant="outline" className="text-lg px-4 py-2">
+                      {project.deliveryTime}
+                    </Badge>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -199,14 +185,13 @@ export function ProjectDetailsPage() {
             {/* Right Column - Pricing */}
             <motion.div 
               className="lg:col-span-1"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
               <PriceBox
                 price={project.priceEstimate}
                 deliveryTime={project.deliveryTime}
-                difficultyLevel={project.difficultyLevel}
                 features={project.features}
                 projectTitle={project.title}
                 projectId={project.id}
@@ -232,7 +217,7 @@ export function ProjectDetailsPage() {
                   to={`/projects/${relatedProject.slug}`}
                   className="group"
                 >
-                  <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+                  <Card className="h-full transition-all duration-300 hover:scale-[1.02]">
                     <CardContent className="p-6 space-y-3">
                       <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
                         {relatedProject.title}
@@ -241,7 +226,7 @@ export function ProjectDetailsPage() {
                         {relatedProject.shortDescription}
                       </p>
                       <div className="flex items-center justify-between pt-2">
-                        <Badge variant="secondary">{relatedProject.difficultyLevel}</Badge>
+                        <Badge variant="secondary">{relatedProject.category}</Badge>
                         <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </CardContent>
@@ -254,20 +239,22 @@ export function ProjectDetailsPage() {
       )}
 
       {/* Final CTA */}
-      <Section className="bg-slate-900 text-white">
-        <div className="container mx-auto px-4">
+      <Section className="bg-slate-100 dark:bg-linear-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-white border-t dark:border-white/5 relative overflow-hidden">
+        <div className="absolute inset-0 dark:bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.15),transparent_50%)]"></div>
+        <div className="absolute inset-0 dark:bg-[radial-gradient(circle_at_70%_60%,rgba(168,85,247,0.12),transparent_50%)]"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">
               Ready to Get Started?
             </h2>
-            <p className="text-lg text-slate-200">
+            <p className="text-lg text-slate-700 dark:text-slate-200">
               Let's discuss your project requirements and create a custom solution 
               tailored to your business needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button size="lg" variant="secondary" asChild>
                 <a 
-                  href={`https://wa.me/96891200634?text=Hello%2C%20I'm%20interested%20in%20${encodeURIComponent(project.title)}.%20Could%20you%20provide%20more%20details%3F`}
+                  href={`https://wa.me/96891200634?text=Hello%2C%20I'm%20interested%20in%20${project ? encodeURIComponent(project.title) : 'this project'}.%20Could%20you%20provide%20more%20details%3F`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
