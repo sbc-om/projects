@@ -1,8 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { PriceDisplay, extractBasePrice } from "@/components/PriceDisplay";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type { Project } from "@/data/projects";
 import { useCallback, useMemo, useState } from "react";
 import type { MouseEvent, SyntheticEvent } from "react";
@@ -115,7 +114,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         onMouseEnter={(e) => setAccentVar(e.currentTarget)}
         onMouseMove={setSpotlightFromMouse}
         onMouseLeave={resetSpotlight}
-        className="project-card-premium group relative overflow-hidden transition-all duration-300 flex flex-col h-full border hover:border-[rgb(var(--accent-rgb)/0.55)] dark:border-white/5 dark:bg-slate-900/40 dark:backdrop-blur-sm dark:hover:bg-slate-900/60"
+        className="project-card-premium liquid-highlight liquid-border-glow group relative overflow-hidden transition-all duration-300 flex flex-col h-full border hover:border-[rgb(var(--accent-rgb)/0.55)] dark:border-white/10 liquid-glass-card"
       >
         <div
           aria-hidden="true"
@@ -189,11 +188,11 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             </div>
             
             <div className="py-2 border-t">
-              <div className="flex items-baseline gap-1">
-                <span className="text-xs text-muted-foreground">From</span>
-                <p className="text-xl font-bold text-primary">
-                  <PriceDisplay basePrice={extractBasePrice(project.priceEstimate)} />
-                </p>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">Pricing:</span>
+                <Badge variant="secondary" className="text-xs px-2 py-0.5">
+                  On request
+                </Badge>
               </div>
             </div>
           </div>

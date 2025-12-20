@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
 export interface CartItem {
@@ -25,6 +25,15 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const CART_STORAGE_KEY = "sbc-shopping-cart";
 
+function persistCart(items: CartItem[]) {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  } catch (error) {
+    // Non-fatal (private mode, storage disabled, quota exceeded, etc.)
+    console.error("Error saving cart to localStorage:", error);
+  }
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
@@ -43,15 +52,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return [];
   });
 
-  // Save to localStorage whenever items change
-  useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-    } catch (error) {
-      console.error("Error saving cart to localStorage:", error);
-    }
-  }, [items]);
-
   const addToCart = (item: Omit<CartItem, "addedAt" | "quantity">) => {
     setItems((prev) => {
       // Check if item already exists
@@ -64,23 +64,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
           quantity: updated[existingIndex].quantity + 1,
           addedAt: new Date() 
         };
+        persistCart(updated);
         return updated;
       }
       // Add new item with quantity 1
-      return [...prev, { ...item, quantity: 1, addedAt: new Date() }];
+      const next = [...prev, { ...item, quantity: 1, addedAt: new Date() }];
+      persistCart(next);
+      return next;
     });
   };
 
   const removeFromCart = (projectId: number) => {
-    setItems((prev) => prev.filter((item) => item.projectId !== projectId));
+    setItems((prev) => {
+      const next = prev.filter((item) => item.projectId !== projectId);
+      persistCart(next);
+      return next;
+    });
   };
 
   const updatePrice = (projectId: number, newPrice: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
+    setItems((prev) => {
+      const next = prev.map((item) =>
         item.projectId === projectId ? { ...item, finalPrice: newPrice } : item
-      )
-    );
+      );
+      persistCart(next);
+      return next;
+    });
   };
 
   const updateQuantity = (projectId: number, quantity: number) => {
@@ -88,15 +97,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeFromCart(projectId);
       return;
     }
-    setItems((prev) =>
-      prev.map((item) =>
+    setItems((prev) => {
+      const next = prev.map((item) =>
         item.projectId === projectId ? { ...item, quantity } : item
-      )
-    );
+      );
+      persistCart(next);
+      return next;
+    });
   };
 
   const clearCart = () => {
-    setItems([]);
+    setItems(() => {
+      const next: CartItem[] = [];
+      persistCart(next);
+      return next;
+    });
   };
 
   const getTotalPrice = () => {

@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { EnhancedHero } from "@/components/EnhancedHero";
 import { FadeInView } from "@/components/AnimationWrappers";
+import { LiquidBackground } from "@/components/LiquidBackground";
 import { projects } from "@/data/projects";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Search, Filter } from "lucide-react";
 import { useMemo, useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export function ProjectsListPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -103,10 +104,11 @@ export function ProjectsListPage() {
   }, [categories, showGroupedByCategory]);
 
   return (
-    <div className="min-h-screen bg-background relative z-10">
+    <LiquidBackground>
+    <div className="min-h-screen bg-background/0 relative z-10">
       {/* Top Navigation */}
-      <motion.div 
-        className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl sticky top-0 z-50"
+      <motion.div
+        className="sticky top-0 z-50 border-b border-white/10 dark:border-white/10 liquid-glass-nav"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -159,7 +161,7 @@ export function ProjectsListPage() {
       </EnhancedHero>
 
       {/* Filters Section */}
-      <div ref={filterSectionRef} className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl relative z-10">
+      <div ref={filterSectionRef} className="border-b border-white/10 dark:border-white/10 liquid-glass-nav relative z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row gap-3">
             <div className="relative flex-1">
@@ -167,7 +169,7 @@ export function ProjectsListPage() {
               <Input
                 type="text"
                 placeholder="Search projects, technologies..."
-                className="pl-10 h-10 border-muted-foreground/20"
+                className="pl-10 h-10 border-muted-foreground/20 bg-white/60 dark:bg-slate-900/30 backdrop-blur-md"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={(e) => e.preventDefault()}
@@ -175,7 +177,7 @@ export function ProjectsListPage() {
             </div>
             <div className="flex gap-2 flex-wrap">
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-[220px] h-10">
+                <SelectTrigger className="w-[220px] h-10 bg-white/60 dark:bg-slate-900/30 backdrop-blur-md">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -317,5 +319,6 @@ export function ProjectsListPage() {
         </div>
       </Section>
     </div>
+    </LiquidBackground>
   );
 }

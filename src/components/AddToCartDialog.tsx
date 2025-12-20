@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { ShoppingCart, Check } from "lucide-react";
@@ -18,7 +18,8 @@ interface AddToCartDialogProps {
   projectId: number;
   projectTitle: string;
   projectSlug: string;
-  basePrice: number;
+  basePrice?: number;
+  initialPrice?: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -28,10 +29,18 @@ export function AddToCartDialog({
   projectTitle,
   projectSlug,
   basePrice,
+  initialPrice,
   open,
   onOpenChange,
 }: AddToCartDialogProps) {
-  const [finalPrice, setFinalPrice] = useState(basePrice.toString());
+  const initialValue = useMemo(() => {
+    if (typeof initialPrice === "number" && Number.isFinite(initialPrice) && initialPrice > 0) {
+      return String(initialPrice);
+    }
+    return "";
+  }, [initialPrice]);
+
+  const [finalPrice, setFinalPrice] = useState(initialValue);
   const [isAdded, setIsAdded] = useState(false);
   const { addToCart } = useCart();
   const { currency, getCurrencySymbol } = useCurrency();
@@ -80,9 +89,15 @@ export function AddToCartDialog({
               placeholder="Enter final price"
               className="text-lg"
             />
-            <p className="text-xs text-muted-foreground">
-              Base estimate: {getCurrencySymbol()} {basePrice.toLocaleString()}
-            </p>
+            {typeof basePrice === "number" && Number.isFinite(basePrice) && basePrice > 0 ? (
+              <p className="text-xs text-muted-foreground">
+                Base estimate: {getCurrencySymbol()} {basePrice.toLocaleString()}
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground">
+                Enter the agreed amount to use it in the cart and invoice.
+              </p>
+            )}
           </div>
         </div>
 

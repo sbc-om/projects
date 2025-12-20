@@ -5,12 +5,14 @@ import { ShoppingCart, Trash2, FileText, Plus, Minus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export function CartButton() {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCart();
+  const [open, setOpen] = useState(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm" className="relative">
           <ShoppingCart className="h-4 w-4" />
@@ -51,6 +53,7 @@ export function CartButton() {
                         <Link 
                           to={`/projects/${item.projectSlug}`}
                           className="font-medium hover:text-primary transition-colors"
+                          onClick={() => setOpen(false)}
                         >
                           {item.projectTitle}
                         </Link>
@@ -113,7 +116,7 @@ export function CartButton() {
                   </span>
                 </div>
 
-                <Link to="/invoice" className="block">
+                <Link to="/invoice" className="block" onClick={() => setOpen(false)}>
                   <Button size="lg" className="w-full">
                     <FileText className="h-5 w-5 mr-2" />
                     Generate Invoice

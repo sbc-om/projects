@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { ArrowLeft, Clock, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import { LiquidBackground } from "@/components/LiquidBackground";
 
 export function ProjectDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -33,9 +34,10 @@ export function ProjectDetailsPage() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background relative z-10">
+    <LiquidBackground>
+    <div className="min-h-screen bg-background/0 relative z-10">
       {/* Top Navigation */}
-      <div className="border-b dark:border-white/5 bg-background/95 backdrop-blur-xl sticky top-0 z-50">
+      <div className="sticky top-0 z-50 border-b border-white/10 dark:border-white/10 liquid-glass-nav">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <Logo />
@@ -49,7 +51,7 @@ export function ProjectDetailsPage() {
       </div>
 
       {/* Back Button */}
-      <div className="border-b dark:border-white/5 bg-background/50">
+      <div className="border-b border-white/10 dark:border-white/10 liquid-glass-nav">
         <div className="container mx-auto px-4 py-3">
           <Button 
             variant="ghost" 
@@ -190,7 +192,6 @@ export function ProjectDetailsPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <PriceBox
-                price={project.priceEstimate}
                 deliveryTime={project.deliveryTime}
                 features={project.features}
                 projectTitle={project.title}
@@ -266,5 +267,6 @@ export function ProjectDetailsPage() {
         </div>
       </Section>
     </div>
+    </LiquidBackground>
   );
 }

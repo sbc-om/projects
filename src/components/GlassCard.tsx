@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface GlassCardProps {
@@ -25,22 +25,10 @@ export function GlassCard({ children, className = "", hover = true, delay = 0 }:
       `}
     >
       {/* Glass shine effect */}
-      <div 
-        className="absolute inset-0 opacity-40"
-        style={{
-          background: 'linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
-        }}
-      />
+      <div className="glass-shine absolute inset-0 opacity-40" />
       
       {/* Border gradient glow */}
-      <div 
-        className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
-        style={{
-          background: 'linear-gradient(135deg, rgba(0, 152, 234, 0.3), rgba(147, 51, 234, 0.3))',
-          filter: 'blur(20px)',
-          transform: 'scale(0.95)',
-        }}
-      />
+      <div className="glass-border-glow absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500" />
 
       {/* Content */}
       <div className="relative z-10">

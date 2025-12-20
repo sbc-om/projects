@@ -14,7 +14,22 @@ export function InvoiceAppendixPage() {
   const ref = params.get("ref") ?? "";
   const date = params.get("date") ?? "";
 
-  const handlePrint = () => window.print();
+  const handlePrint = () => {
+    const root = document.documentElement;
+    const wasDark = root.classList.contains("dark");
+    let restored = false;
+
+    const restore = () => {
+      if (restored) return;
+      restored = true;
+      if (wasDark) root.classList.add("dark");
+    };
+
+    if (wasDark) root.classList.remove("dark");
+    window.addEventListener("afterprint", restore, { once: true });
+    window.print();
+    window.setTimeout(restore, 1000);
+  };
 
   if (items.length === 0) {
     return (
@@ -51,7 +66,7 @@ export function InvoiceAppendixPage() {
       {/* Appendix Content */}
       <div className="container mx-auto px-3 py-2">
         <div className="max-w-5xl mx-auto">
-          <Card className="p-3 bg-white print:shadow-none print:p-2">
+          <Card className="p-3 bg-white text-slate-900 print:shadow-none print:p-2">
             {/* Header */}
             <div className="flex justify-between items-start mb-2 pb-2 border-b">
               <div className="flex items-center gap-1.5">

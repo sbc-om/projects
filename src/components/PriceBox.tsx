@@ -1,13 +1,11 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, ShoppingCart } from "lucide-react";
-import { PriceDisplay, extractBasePrice } from "@/components/PriceDisplay";
+import { Calendar, MessageCircle, ShoppingCart } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { AddToCartDialog } from "@/components/AddToCartDialog";
 import { useState } from "react";
 
 interface PriceBoxProps {
-  price: string;
   deliveryTime: string;
   features: string[];
   projectTitle: string;
@@ -15,21 +13,20 @@ interface PriceBoxProps {
   projectSlug: string;
 }
 
-export function PriceBox({ price, deliveryTime, features, projectTitle, projectId, projectSlug }: PriceBoxProps) {
-  const { getWhatsAppLink, convertPrice } = useCurrency();
+export function PriceBox({ deliveryTime, features, projectTitle, projectId, projectSlug }: PriceBoxProps) {
+  const { getWhatsAppLink } = useCurrency();
   const [showDialog, setShowDialog] = useState(false);
-  const basePrice = extractBasePrice(price);
-  const convertedPrice = parseFloat(convertPrice(basePrice).replace(/,/g, ''));
 
   return (
     <div className="sticky top-24">
       <Card className="border-2">
         <CardHeader className="space-y-4 pb-4">
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">Starting from</p>
-            <CardTitle className="text-4xl font-bold">
-              <PriceDisplay basePrice={extractBasePrice(price)} />
-            </CardTitle>
+            <p className="text-sm text-muted-foreground">Pricing</p>
+            <CardTitle className="text-2xl font-bold">On request</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Every project is scoped based on your requirements. Request a quote to get a tailored estimate.
+            </p>
           </div>
           
           <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50 border dark:border-white/5">
@@ -58,30 +55,27 @@ export function PriceBox({ price, deliveryTime, features, projectTitle, projectI
         </CardContent>
       
         <CardFooter className="flex-col gap-3 pt-4">
-          <Button 
-            size="lg" 
-            className="w-full"
-            onClick={() => setShowDialog(true)}
-          >
+          <Button size="lg" variant="outline" className="w-full" onClick={() => setShowDialog(true)}>
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>
-          
-          <Button size="lg" variant="outline" className="w-full" asChild>
+
+          <Button size="lg" className="w-full" asChild>
             <a href={getWhatsAppLink(projectTitle)} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="mr-2 h-4 w-4" />
               Request Quote
             </a>
           </Button>
         </CardFooter>
       </Card>
-      
+
       <AddToCartDialog
+        key={`add-to-cart-${projectId}-${showDialog ? "open" : "closed"}`}
         open={showDialog}
         onOpenChange={setShowDialog}
         projectId={projectId}
         projectTitle={projectTitle}
         projectSlug={projectSlug}
-        basePrice={convertedPrice}
       />
     </div>
   );

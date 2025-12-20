@@ -12,6 +12,24 @@ export function InvoicePage() {
   const navigate = useNavigate();
   const [discountPercent, setDiscountPercent] = useState<string>("0");
 
+  const today = new Date();
+  const ymd = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, "0")}${String(today.getDate()).padStart(2, "0")}`;
+  const invoiceNumber = useMemo(() => {
+    // Deterministic "fingerprint" based on cart content (pure; no randomness).
+    const payload = items
+      .map((i) => `${i.projectId}:${i.quantity}:${i.finalPrice}:${i.currency}`)
+      .sort()
+      .join("|");
+
+    let hash = 0;
+    for (let idx = 0; idx < payload.length; idx++) {
+      hash = (hash * 31 + payload.charCodeAt(idx)) >>> 0;
+    }
+
+    const suffix = hash.toString(36).toUpperCase().padStart(6, "0").slice(0, 6);
+    return `INV-${ymd}-${suffix}`;
+  }, [items, ymd]);
+
   const subtotal = getTotalPrice();
   const discount = useMemo(() => {
     const percent = parseFloat(discountPercent) || 0;
@@ -20,7 +38,21 @@ export function InvoicePage() {
   const total = subtotal - discount;
 
   const handlePrint = () => {
+    const root = document.documentElement;
+    const wasDark = root.classList.contains("dark");
+    let restored = false;
+
+    const restore = () => {
+      if (restored) return;
+      restored = true;
+      if (wasDark) root.classList.add("dark");
+    };
+
+    if (wasDark) root.classList.remove("dark");
+    window.addEventListener("afterprint", restore, { once: true });
     window.print();
+    // Fallback restore for browsers that don't fire afterprint reliably.
+    window.setTimeout(restore, 1000);
   };
 
   if (items.length === 0) {
@@ -38,9 +70,6 @@ export function InvoicePage() {
       </div>
     );
   }
-
-  const today = new Date();
-  const invoiceNumber = `INV-${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, "0")}${String(today.getDate()).padStart(2, "0")}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
   const appendixHref = `/invoice/appendix?ref=${encodeURIComponent(invoiceNumber)}&date=${encodeURIComponent(today.toLocaleDateString())}`;
   
@@ -70,7 +99,7 @@ export function InvoicePage() {
       {/* Invoice Content */}
       <div className="container mx-auto px-4 py-4">
         <Card 
-          className="max-w-4xl mx-auto p-4 md:p-6 bg-white print:shadow-none print:p-4"
+          className="max-w-4xl mx-auto p-4 md:p-6 bg-white text-slate-900 print:shadow-none print:p-4"
         >
           {/* Header */}
           <div className="flex justify-between items-start mb-4 pb-3 border-b">
